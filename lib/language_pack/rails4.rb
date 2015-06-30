@@ -88,6 +88,12 @@ WARNING
           log "assets_precompile", :status => "success"
           puts "Asset precompilation completed (#{"%.2f" % precompile.time}s)"
 
+          gzip_assets = rake.task("assets:gzip")
+          if gzip_assets.is_defined?
+            puts "Gzipping assets"
+            rake.task("assets:gzip").invoke(env: rake_env)
+          end
+
           puts "Cleaning assets"
           rake.task("assets:clean").invoke(env: rake_env)
 
